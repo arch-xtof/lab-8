@@ -1,16 +1,24 @@
 <?php
-
-    $servername = "anysql.itcollege.ee";
-    $username = "WT8";
-    $password = "CJuPlun24D";
+    // Get credentials
+    require('connect.db.php');
 
     // Create connection
-    $conn = new mysqli($servername, $username, $password);
+    $db = new mysqli($servername, $username, $password);
 
     // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+    if ($db->connect_error) {
+        die("Connection failed: " . $db->connect_error);
     }
-    echo "Connected successfully";
+    //echo "Connected successfully";
 
+    function listCourses(){
+        $query = "SELECT course_code, course_name, ects_credits FROM courses ORDER BY id ASC";
+        $result = mysqli_query($db, $query);
+        if(mysqli_num_rows($result) > 0){
+            
+            while($row = mysqli_fetch_array($result)){
+                printf("%s\t %s\t %s", $row['course_code'], $row['course_name'], $row['ects_credits']);
+            }
+        }
+    }
 ?>
